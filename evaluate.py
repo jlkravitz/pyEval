@@ -62,15 +62,17 @@ def evaluate_from(tokens):
 
 def is_operator(token):
     """Returns whether the specified token is an operator."""
-    return token == '+' or token == '-' or token == '*' or token == '/'
+    return token == '+' or token == '-' or \
+            token == '*' or token == '/' or token == '^'
 
 def precedence(operator):
-    """Returns 0 for addition and subtraction and 1 for multiplcation and 
-       division. Used to compare precedence of operators."""
+    """Returns the precedence of the specified operator."""
     if operator == '+' or operator == '-':
         return 0
-    else:
+    elif operator == '*' or operator == '/':
         return 1
+    elif operator == '^':
+        return 2
 
 def perform_next_operation(operands, operators):
     """Given a stack of operands and operators, pops two numbers off the 
@@ -102,6 +104,8 @@ def perform_operation(lhs, rhs, operator):
         return lhs * rhs
     elif operator == '/':
         return lhs / rhs
+    elif operator == '^':
+        return lhs**rhs
 
 if __name__ == '__main__':
     main()
