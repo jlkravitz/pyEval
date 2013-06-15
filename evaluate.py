@@ -4,6 +4,7 @@
    in a clean and simple way."""
 import shlex
 
+
 def main():
     """"Evaluates expressions until nothing is returned from the user."""
     while True:
@@ -13,15 +14,18 @@ def main():
         result = evaluate(expression)
         print(result)
 
+
 def evaluate(expression):
     """Evaluates the given expression and returns the result."""
     tokens = get_tokens_from(expression)
     result = evaluate_from(tokens)
     return result
 
+
 def get_tokens_from(expression):
     """Returns a list of tokens in string form."""
     return list(shlex.shlex(expression))
+
 
 def evaluate_from(tokens):
     """Uses the Shunting-Yard algorithm to evaluate the expression from the
@@ -31,12 +35,12 @@ def evaluate_from(tokens):
 
     for token in tokens:
         if is_operator(token):
-            # Evaluate all higher precedence operators before pushing next 
+            # Evaluate all higher precedence operators before pushing next
             # operator onto the operators stack.
             while operators and is_operator(operators[-1]) and \
                     precedence(token) <= precedence(operators[-1]):
                 perform_next_operation(operands, operators)
-            
+
             operators.append(token)
 
         elif token == '(':
@@ -60,10 +64,12 @@ def evaluate_from(tokens):
 
     return operands.pop()
 
+
 def is_operator(token):
     """Returns whether the specified token is an operator."""
     return token == '+' or token == '-' or \
-            token == '*' or token == '/' or token == '^'
+        token == '*' or token == '/' or token == '^'
+
 
 def precedence(operator):
     """Returns the precedence of the specified operator."""
@@ -74,8 +80,9 @@ def precedence(operator):
     elif operator == '^':
         return 2
 
+
 def perform_next_operation(operands, operators):
-    """Given a stack of operands and operators, pops two numbers off the 
+    """Given a stack of operands and operators, pops two numbers off the
        operands stack and applies the next operator on the operators stack.
        Finally, pushes this result to the operands stack."""
     rhs = convert_to_float(operands.pop())
@@ -83,6 +90,7 @@ def perform_next_operation(operands, operators):
     operator = operators.pop()
     result = perform_operation(lhs, rhs, operator)
     operands.append(result)
+
 
 def convert_to_float(token):
     """Returns the float representation of token if token is a number.
@@ -92,6 +100,7 @@ def convert_to_float(token):
     except ValueError:
         print('ValueError: ' + token + ' is an invalid real number')
         raise
+
 
 def perform_operation(lhs, rhs, operator):
     """Performs the operation 'lhs operator rhs', where lhs and rhs are numbers
